@@ -1,6 +1,12 @@
 (function(global){
     var milkcocoa = new MilkCocoa("vuei9dh5mu3.mlkcca.com");
-    var todoDataStore = milkcocoa.dataStore("todos");
+
+    //Auth0の設定
+    var lock = new Auth0Lock(
+    	'z2RcQboX6E8c2yxUPZIqPaA6rdQdXQUF',
+    	'milkcocoa.auth0.com'
+    	);
+
 
 	global.onload = onload;
 	function onload() {
@@ -8,28 +14,61 @@
 		var create_button = document.getElementById("create_btn");
 		var todos = document.getElementById("todos");
 
-		//1
-		todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
-			todos.forEach(function(todo) {
-				render_todo(todo.value);
+		getTodoDataStore(function(err, todoDataStore) {
+
+			//1
+			todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
+				todos.forEach(function(todo) {
+					render_todo(todo.value);
+				});
 			});
-		});
-		//2
-		todoDataStore.on('push', function(pushed) {
-			render_todo(pushed.value);
-		});
-		//3
-		create_button.addEventListener("click", function(e) {
-			todoDataStore.push({
-				content : new_content.value
+			//2
+			todoDataStore.on('push', function(pushed) {
+				render_todo(pushed.value);
 			});
-			new_content.value = "";
-		});
+			//3
+			create_button.addEventListener("click", function(e) {
+				todoDataStore.push({
+					content : new_content.value
+				});
+				new_content.value = "";
+			});
+
+		})
+
 
 		function render_todo(todo) {
 			var element = document.createElement("div");
 			element.textContent = todo.content
 			todos.appendChild(element);
+		}
+
+		function getTodoDataStore(cb) {
+		    var todoDataStore = milkcocoa.dataStore("todos");
+	        milkcocoa.user(function(err, user) {
+	    		if (err) {
+	        		cb(err);
+	    			return;
+	    		}
+	            if(user) {
+	            	cb(null, todoDataStore.child(user.sub));
+				}else{
+		        	lock.show(function(err, profile, token) {
+		        		if (err) {
+	                		cb(err);
+		        			return;
+		        		}
+		        		console.log(err, profile, token);
+		                milkcocoa.authWithToken(token, function(err, user) {
+		                	if(err) {
+		                		cb(err);
+		                		return;
+		                	}
+		                	getTodoDataStore(cb);
+		                });
+		        	});
+				}
+	        });
 		}
 	}
 }(window))
