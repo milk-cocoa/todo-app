@@ -64,7 +64,7 @@
 		                		cb(err);
 		                		return;
 		                	}
-		                	getTodoDataStore(cb);
+			            	cb(null, todoDataStore.child(user.sub));
 		                });
 		        	});
 				}
