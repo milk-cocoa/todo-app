@@ -7,15 +7,33 @@
     	'milkcocoa.auth0.com'
     	);
 
-
 	global.onload = onload;
 	function onload() {
 		var new_content = document.getElementById("new_content");
 		var create_button = document.getElementById("create_btn");
 		var todos = document.getElementById("todos");
 
-		getTodoDataStore(function(err, todoDataStore) {
+		var todos_id = location.hash.substr(1);
 
+	    var todoDataStore = milkcocoa.dataStore("todos").child(todos_id);
+		getUser(function(err, user_id) {
+			if(todos_id == user_id) {
+				create_todos_view(user_id, todoDataStore);
+			}else{
+				create_request_access_view(user_id, todoDataStore);
+			}
+		});
+
+		function create_request_access_view(user_id, todoDataStore) {
+			requestDataStore = todoDataStore.child('requests');
+			var request_button = document.getElementById("request_btn");
+			request_button.addEventListener("click", function(e) {
+				requestDataStore.set(user_id, {});
+			});
+
+		}
+
+		function create_todos_view(user_id, todoDataStore) {
 			//1
 			todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
 				todos.forEach(function(todo) {
@@ -34,7 +52,7 @@
 				new_content.value = "";
 			});
 
-		})
+		}
 
 
 		function render_todo(todo) {
@@ -43,15 +61,14 @@
 			todos.appendChild(element);
 		}
 
-		function getTodoDataStore(cb) {
-		    var todoDataStore = milkcocoa.dataStore("todos");
+		function getUser(cb) {
 	        milkcocoa.user(function(err, user) {
 	    		if (err) {
 	        		cb(err);
 	    			return;
 	    		}
 	            if(user) {
-	            	cb(null, todoDataStore.child(user.sub));
+	            	cb(null, user.sub);
 				}else{
 		        	lock.show(function(err, profile, token) {
 		        		if (err) {
@@ -64,7 +81,7 @@
 		                		cb(err);
 		                		return;
 		                	}
-			            	cb(null, todoDataStore.child(user.sub));
+			            	cb(null, user.sub);
 		                });
 		        	});
 				}
