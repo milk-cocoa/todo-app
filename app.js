@@ -14,7 +14,7 @@
 		var todos = document.getElementById("todos");
 		var requests = document.getElementById("requests");
 
-		var todos_id = location.hash.substr(1);
+		var todos_id = escapeHTML(location.hash.substr(1));
 
 	    var todoDataStore = milkcocoa.dataStore("todos").child(todos_id);
 		getUser(function(err, user_id) {
@@ -139,6 +139,10 @@
 		        	});
 				}
 	        });
+		}
+
+		function escapeHTML(str) {
+			return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		}
 	}
 }(window))
