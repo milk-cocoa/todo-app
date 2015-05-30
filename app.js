@@ -14,7 +14,8 @@
 		var create_button = document.getElementById("create_btn");
 		var todos = document.getElementById("todos");
 
-		getTodoDataStore(function(err, todoDataStore) {
+		getUser(function(err, user_id) {
+			var todoDataStore = milkcocoa.dataStore('todos').child(user_id);
 
 			//1
 			todoDataStore.stream().sort('desc').size(20).next(function(err, todos) {
@@ -43,15 +44,14 @@
 			todos.appendChild(element);
 		}
 
-		function getTodoDataStore(cb) {
-		    var todoDataStore = milkcocoa.dataStore("todos");
+		function getUser(cb) {
 	        milkcocoa.user(function(err, user) {
 	    		if (err) {
 	        		cb(err);
 	    			return;
 	    		}
 	            if(user) {
-	            	cb(null, todoDataStore.child(user.sub));
+	            	cb(null, user.sub);
 				}else{
 		        	lock.show(function(err, profile, token) {
 		        		if (err) {
@@ -64,7 +64,7 @@
 		                		cb(err);
 		                		return;
 		                	}
-			            	cb(null, todoDataStore.child(user.sub));
+			            	cb(null, user.sub);
 		                });
 		        	});
 				}
