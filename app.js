@@ -1,11 +1,22 @@
 (function(global){
-    var milkcocoa = new MilkCocoa("vuei9dh5mu3.mlkcca.com");
+    // ひやさん
+    // var milkcocoa = new MilkCocoa("vuei9dh5mu3.mlkcca.com");
+
+    // へいま
+    var milkcocoa = new MilkCocoa("blueiagdnu1z.mlkcca.com");
 
     //Auth0の設定
-    var lock = new Auth0Lock(
-    	'z2RcQboX6E8c2yxUPZIqPaA6rdQdXQUF',
-    	'milkcocoa.auth0.com'
-    	);
+    // ひやさん
+    // var lock = new Auth0Lock(
+    // 	'z2RcQboX6E8c2yxUPZIqPaA6rdQdXQUF',
+    // 	'milkcocoa.auth0.com'
+    // 	);
+
+		// へいま
+		var lock = new Auth0Lock(
+	    'ZHzhPjbBvzYj0dOhY1EVoA1KB4oRnFUC',
+	    'kiyopikko.auth0.com'
+	  );
 
 
 	global.onload = onload;
