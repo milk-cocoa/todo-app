@@ -11,6 +11,7 @@
 	function onload() {
 		var new_content = document.getElementById("new_content");
 		var create_button = document.getElementById("create_btn");
+		var logout_btn = document.getElementById("logout_btn");
 		var todos = document.getElementById("todos");
 		var requests = document.getElementById("requests");
 
@@ -29,6 +30,13 @@
 					create_admin_view(user_id, todoDataStore);
 				}
 			}
+		});
+
+		logout_btn.addEventListener('click', function(e) {
+			milkcocoa.logout(function() {
+				location.reload();
+			});
+
 		});
 
 		function create_request_access_view(user_id, todoDataStore) {
