@@ -9,10 +9,18 @@
 	<script src="app.js"></script>
 </head>
 <body>
-	<div>
+	<div id="make_request_view" style="display:none;">
+		<button id="request_btn">リクエストを送る</button>
+	</div>
+	<div id="requests_view" style="display:none;">
+		<span>リクエスト待ち</span>
+		<select id="requests"></select>
+		<button id="allow_btn">リクエストを許可する</button>
+	</div>
+	<div id="todos_view" style="display:none;">
 		<div>
 			<input id="new_content" type="text" />
-			<button id="create_btn">追加</button>
+			<button id="create_btn">新しいToDoを追加</button>
 		</div>
 		<div id="todos">
 		</div>
