@@ -106,7 +106,7 @@
               // ログインが成功したらリロード
               setTimeout(function(){
                 window.location.reload();
-              },500);
+              },200);
 
             });
           });
@@ -249,10 +249,9 @@
      */
 
     logout_button.addEventListener("click", function(e) {
-      milkcocoa.logout();
-      setTimeout(function(){
+      milkcocoa.logout(function(){
         window.location.href = '/';
-      },500);
+      });
     });
 
     function escapeHTML(str) {
