@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	<title>ToDo App</title>
-	<script src="https://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
-    <script src="https://cdn.auth0.com/js/lock-6.js"></script>
-	<script src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>ToDo App</title>
+  <script src="https://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
+  <script src="https://cdn.auth0.com/js/lock-6.js"></script>
+  <script src="app.js"></script>
 </head>
+
 <body>
-	<div id="make_request_view" style="display:none;">
-		<button id="request_btn">リクエストを送る</button>
-	</div>
-	<div id="requests_view" style="display:none;">
-		<span>リクエスト待ち</span>
-		<select id="requests"></select>
-		<button id="allow_btn">リクエストを許可する</button>
-	</div>
-	<div id="todos_view" style="display:none;">
-		<div>
-			<input id="new_content" type="text" />
-			<button id="create_btn">新しいToDoを追加</button>
-		</div>
-		<div id="todos">
-		</div>
-	</div>
+  <div id="request_access_view" style="display:none;">
+    <button id="request_btn">リクエストを送る</button>
+  </div>
+
+  <div id="admin_view" style="display:none;">
+    <span>リクエスト待ち</span>
+    <select id="requests"></select>
+    <button id="allow_btn">リクエストを許可する</button>
+  </div>
+
+  <hr>
+
+  <div id="todos_view" style="display:none;">
+    <div>
+      <input id="new_content" type="text" />
+      <button id="create_btn">新しいToDoを追加</button>
+    </div>
+    <div id="todos">
+    </div>
+  </div>
+
+  <button id="logout_btn">ログアウト</button>
 </body>
 </html>
